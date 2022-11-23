@@ -1,5 +1,6 @@
 import Image from "next/image"
 import styles from "../styles/Navbar.module.css"
+import Link from "next/link"
 
 const Navbar = () => {
   return (
@@ -15,7 +16,7 @@ const Navbar = () => {
         </div>
         <div className={styles.item}>
             <ul className={styles.list}>
-                <li className={styles.listItem}>Homepage</li>
+                <Link href='/'><li className={styles.listItem}>Homepage</li></Link>
                 <li className={styles.listItem}>Products</li>
                 <li className={styles.listItem}>Menu</li>
                 <Image src='/img/apple-touch-icon.png' width={100} height={100}/>
