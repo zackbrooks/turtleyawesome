@@ -33,6 +33,7 @@ const Cart = () => {
  
   const dispatch = useDispatch()
 
+
   // Custom component to wrap the PayPalButtons and handle currency changes
 const ButtonWrapper = ({ currency, showSpinner }) => {
   // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
@@ -170,7 +171,7 @@ const ButtonWrapper = ({ currency, showSpinner }) => {
               </div>
           ) : (
             
-            <button className={styles.button} onClick={() => setOpen(true)}>CHECKOUT NOW!</button>
+            <button className={styles.button} onClick={() => setOpen(true) }>CHECKOUT NOW!</button>
             )}
           
         </div>

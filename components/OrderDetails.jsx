@@ -8,6 +8,8 @@ const OrderDetails = ({total, createOrder}) => {
     const handleClick = () => {
         createOrder({ customer, address, total, method: 0 });
       };
+    
+   
 
   return (
     <div className={styles.container}>
