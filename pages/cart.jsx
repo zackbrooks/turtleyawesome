@@ -10,6 +10,7 @@ import {
 import axios from 'axios'
 import { useRouter } from "next/router";
 import {reset} from "../redux/cartSlice"
+import OrderDetails from "../components/OrderDetails";
 
 
 const Cart = () => {
@@ -25,6 +26,7 @@ const Cart = () => {
     }
   }
   const [open, setOpen] = useState(false)
+  const [cash, setCash] = useState(false)
   const amount = cart.total;
   const currency = "USD";
   const style = { layout: "vertical" };
@@ -151,28 +153,29 @@ const ButtonWrapper = ({ currency, showSpinner }) => {
           </div>
           {open ? (
             <div className={styles.paymentMethods}>
-              <button className={styles.payButton}>CASH ON DELIVERY</button>
+              <button onClick={() => setCash(true)} className={styles.payButton}>CASH ON DELIVERY</button>
               <PayPalScriptProvider
               options={{
-                  "client-id": "Aex7OO5UimgELINxbN0i_dstl3zrBlHe4n5TQVlyp9YnWx7eF7CCr44JBP8yhlpgDNbagVswZ2946zzw",
-                  components: "buttons",
-                  currency: "USD",
-                  "disable-funding": "credit,card,venmo"
-                        }}
-                    >
+                "client-id": "Aex7OO5UimgELINxbN0i_dstl3zrBlHe4n5TQVlyp9YnWx7eF7CCr44JBP8yhlpgDNbagVswZ2946zzw",
+                components: "buttons",
+                currency: "USD",
+                "disable-funding": "credit,card,venmo"
+              }}
+              >
                 <ButtonWrapper
                             currency={currency}
                             showSpinner={false}
-                        />
+                            />
               </PayPalScriptProvider>
               </div>
           ) : (
-
+            
             <button className={styles.button} onClick={() => setOpen(true)}>CHECKOUT NOW!</button>
-          )}
+            )}
           
         </div>
       </div>
+            { cash && <OrderDetails total={cart.total} createOrder={createOrder}/>}
     </div>
   );
 };
