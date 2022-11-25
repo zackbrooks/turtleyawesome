@@ -2,12 +2,14 @@ import styles from "../../styles/Admin.module.css";
 import Image from "next/image";
 import Link from "next/link"
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { set } from "mongoose";
 
 const Index = ({pizza, order}) => {
-//   console.log("order", order)
-  const [pizzaList, setPizzaList] = useState(pizza)
-  const [orderList, setOrderList] = useState(order)
+    const [pizzaList, setPizzaList] = useState(pizza)
+    const [orderList, setOrderList] = useState(order)
+    // console.log('testing when done', typeof orderList, orderList)
+  const orderStatus = ['Preparing', 'On The Way', 'Delivered']
   const handleDelete = async (id) =>{
     try {
         const res = await axios.delete(`http://localhost:3000/api/products/${id}`)
@@ -16,6 +18,25 @@ const Index = ({pizza, order}) => {
         console.log(error)
     }
   }
+
+  const handleStatus = async (id) => {
+    const item = orderList.filter(order => order._id === id)[0]
+    const currentStatus = Number(item.status)
+    try {
+        const res = await axios.put(`http://localhost:3000/api/orders/${id}`, {status: Number(currentStatus) + 1})
+        setOrderList(preVal => preVal.map(order => {
+            if(order._id === id){
+                return res.data
+            } else {
+                return order
+            }
+        }))
+    } catch (error) {
+        console.log("error", error)
+        
+    }
+  }
+
   return (
     <div className={styles.container}>
         <div className={styles.item}>
@@ -31,7 +52,7 @@ const Index = ({pizza, order}) => {
                     </tr>
                 </tbody>
                 <tbody>
-                    {pizzaList.map(pizza => (
+                    {pizzaList.map((pizza) => (
                     <tr key={pizza._id}>
                         <td><Image src={pizza.img} width={50} height={50} objectFit='cover' alt=""/></td>
                         <td>{pizza._id}</td>
@@ -60,19 +81,22 @@ const Index = ({pizza, order}) => {
                     </tr>
                 </tbody>
                 <tbody>
+                    {orderList.map((order) => (
 
-                    <tr key=''>
-                        <td>3534254253434</td>
-                        <td>Zeke Brooks</td>
-                        <td>$34.44</td>
-                        <td>Paid</td>
-                        <td>Preparing</td>
+                        <tr key={order._id}>
+                        <td>{order._id.slice(0,5)}</td>
+                        <td>{order.customer}</td>
+                        <td>${order.total}</td>
+                        <td>{order.method[0] === 1 ||  order.status[0]  === 2 ? 'Paid': 'Not Yet Paid'}</td>
+                        <td>{orderStatus[order.status]}</td>
                         <td>
-                           <button className={styles.button}>Next Stage</button>
+                           <button onClick={() => handleStatus(order._id)} className={styles.button} disabled={order.status[0] === 2 ? true : false}>
+                           {order.status[0] === 2 ? "Completed" : "Next Stage"}</button>
                             <button className={styles.button}>Delete</button>
                         </td>
                     </tr>
 
+                    ))}
                 </tbody>
             </table>
         </div>
@@ -80,18 +104,31 @@ const Index = ({pizza, order}) => {
   )
 }
 
-export const getServerSideProps = async () => {
-    const res = await axios.get(`http://localhost:3000/api/products`)
-    const ordersData = await axios.get(`http://localhost:3000/api/orders`)
-    console.log("Orders When They Get To Frontend", ordersData.data)
+export const getServerSideProps = async (ctx) => {
+
+    const myCookie = ctx.req?.cookies || ''
+
+    if(myCookie.token !== process.env.TOKEN){
+        return{
+            redirect:{
+                destination:'/admin/login',
+                permanent:false,
+            }
+        }
+    }
+    const pizzasData = await axios.get(`http://localhost:3000/api/products`)
+    const orders = await fetch(`http://localhost:3000/api/orders`)
+    const ordersData = await orders.json()
     
     return {
       props:{
-        pizza: res.data,
-        order: ordersData.data
+        pizza: pizzasData.data,
+        order: ordersData
       }
     }
   }
 
   
 export default Index
+
+
