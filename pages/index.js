@@ -1,15 +1,27 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Featured from '../components/Featured'
 import PizzaList from '../components/PizzaList'
 import Add from '../components/Add'
 import AddButton from '../components/AddButton'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 
-export default function Home({pizzaList, admin}) {
+export default function Home({admin}) {
   const [close, setClose] = useState(true)
+  const [products, setProducts] = useState([])
+
+  const getProducts = async () => {
+    const productsData = await axios.get(`https://turtleyawesome.vercel.app/api/products`)
+    // const productsData = await axios.get(`http://localhost:3000/api/products`)
+    console.log("productsData", productsData.data)
+    setProducts(productsData.data)
+    
+  }
+
+  useEffect(()=>{
+    getProducts()
+  },[])
   return (
     <div>
       <Head>
@@ -18,23 +30,7 @@ export default function Home({pizzaList, admin}) {
         <link rel="icon" href="/img/favicon.ico" />
       </Head>
       <Featured/>
-      {admin && <AddButton setClose={setClose}/>}
-      <PizzaList pizzaList={pizzaList}/>
-      {!close && <Add setClose={setClose}/>}
+      <PizzaList pizzaList={products} />
     </div>
   )
 }
- export const getServerSideProps = async (ctx) => {
-  const myCookie = ctx.req?.cookies || ''
-    let admin = false
-    if(myCookie.token === process.env.TOKEN){
-        admin = true
-    }
-  const res = await axios.get('http://localhost:3000/api/products')
-  return {
-    props:{
-      pizzaList: res.data,
-      admin
-    }
-  }
- }

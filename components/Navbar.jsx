@@ -10,11 +10,13 @@ const Navbar = () => {
     <div className={styles.container}>
         <div className={styles.item}>
         <div className={styles.callButton}>
+        <Link href='/admin'> 
           <Image src='/img/telephone.png' width={32} height={32}/>
+          </Link>
         </div>
         <div className={styles.texts}>
             <div className={styles.text}>ORDER NOW!</div>
-            <div className={styles.text}>870 278 0155</div>
+            <div className={styles.text}>870 278 0111</div>
         </div>
         </div>
         <div className={styles.item}>
