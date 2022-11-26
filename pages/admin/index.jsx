@@ -21,7 +21,8 @@ const Index = ({admin}) => {
   const orderStatus = ['Preparing', 'On The Way', 'Delivered']
   const handleDelete = async (id) =>{
     try {
-        const res = await axios.delete(`http://localhost:3000/api/products/${id}`)
+        const res = await axios.delete(`https://turtleyawesome.vercel/api/products/${id}`)
+        // const res = await axios.delete(`http://localhost:3000/api/products/${id}`)
         setPizzaList(pizzaList.filter(pizza => pizza._id !== id))
     } catch (error) {
         console.log(error)
@@ -32,7 +33,8 @@ const Index = ({admin}) => {
     const item = orderList.filter(order => order._id === id)[0]
     const currentStatus = Number(item.status)
     try {
-        const res = await axios.put(`http://localhost:3000/api/orders/${id}`, {status: Number(currentStatus) + 1})
+        const res = await axios.put(`https://turtleyawesome.vercel/api/orders/${id}`, {status: Number(currentStatus) + 1})
+        // const res = await axios.put(`http://localhost:3000/api/orders/${id}`, {status: Number(currentStatus) + 1})
         setOrderList(preVal => preVal.map(order => {
             if(order._id === id){
                 return res.data
@@ -47,8 +49,10 @@ const Index = ({admin}) => {
   }
 
   const getAdminData = async () => {
-    const productsData = await axios.get(`http://localhost:3000/api/products`)
-    const ordersData = await axios.get(`http://localhost:3000/api/orders`)
+    const productsData = await axios.get(`https://turtleyawesome.vercel.app/api/products`)
+    const ordersData = await axios.get(`https://turtleyawesome.vercel.app/api/orders`)
+    // const productsData = await axios.get(`http://localhost:3000/api/products`)
+    // const ordersData = await axios.get(`http://localhost:3000/api/orders`)
     setOrderList(ordersData.data)
     setPizzaList(productsData.data)
   }
