@@ -13,6 +13,18 @@ const Product = ({pizza}) => {
   const [quantity, setQuantity] = useState(1)
   const dispatch = useDispatch()
 
+  const getProducts = async () => {
+    const productsData = await axios.get(`https://turtleyawesome.vercel/api/products/${params.id}`)
+    console.log("params.id", params.id)
+    // const productsData = await axios.get(`http://localhost:3000/api/products`)
+    console.log("productsData", productsData.data)
+    
+  }
+
+  useEffect(()=>{
+    getProducts()
+  },[])
+
   const changePrice = (number) =>{  
       setPrice(price + number)
   }
