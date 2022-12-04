@@ -6,8 +6,24 @@ const Order = ({ order }) => {
   // console.log("order", order);
   // console.log("order", order);
   // console.log("orderMethod", order.method[0] === 1);
+  const [order, setOrder] = useState({});
 
   const status = 0;
+
+  const getOrder = async () => {
+    console.log("params.id", params.id);
+    const orderData = await axios.get(
+      `https://turtleyawesome.vercel.app/api/orders/${params.id}`
+    );
+    // console.log("params.id", params.id);
+    // const productsData = await axios.get(`http://localhost:3000/api/products`)
+    // console.log("productsData", productsData.data);
+    setPizza(orderData.data);
+  };
+
+  useEffect(() => {
+    getOrder();
+  }, []);
 
   const statusClass = (index) => {
     if (index - status < 1) return styles.done;
@@ -119,18 +135,6 @@ const Order = ({ order }) => {
       </div>
     </div>
   );
-};
-
-export const getServerSideProps = async ({ params }) => {
-  const res = await axios.get(
-    `https://turtleyawesome.vercel.app/api/orders/${params.id}`
-  );
-  // const res = await axios.get(`http://localhost:3000/api/orders/${params.id}`)
-  return {
-    props: {
-      order: res.data,
-    },
-  };
 };
 
 export default Order;

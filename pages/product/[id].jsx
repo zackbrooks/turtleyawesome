@@ -15,6 +15,7 @@ const Product = ({ pizza2 }) => {
   const dispatch = useDispatch();
 
   const getProducts = async () => {
+    console.log("params.id", params.id);
     const productsData = await axios.get(
       `https://turtleyawesome.vercel.app/api/products/${params.id}`
     );
@@ -107,18 +108,6 @@ const Product = ({ pizza2 }) => {
       </div>
     </div>
   );
-};
-
-export const getServerSideProps = async ({ params }) => {
-  const res = await axios.get(
-    `https://turtleyawesome.vercel.app/api/products/${params.id}`
-  );
-  // const res = await axios.get(`http://localhost:3000/api/products/${params.id}`)
-  return {
-    props: {
-      pizza2: res.data,
-    },
-  };
 };
 
 export default Product;

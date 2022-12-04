@@ -17,9 +17,9 @@ const Footer = () => {
         <div className={styles.card}>
           <h1 className={styles.title}>FIND OUR RESTAURANT</h1>
           <p className={styles.text}>
-            601 W Moultrie Drive
+            888 W Moultrie Drive
             <br /> Blytheville, AR 72315
-            <br /> 870 278 0155
+            <br /> 501 278 0111
           </p>
         </div>
         <div className={styles.card}>
