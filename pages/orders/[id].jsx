@@ -2,11 +2,11 @@ import styles from "../../styles/Order.module.css";
 import Image from "next/image";
 import axios from "axios";
 
-const Order = ({order}) => {
-  console.log("order", order)
-  console.log("order", order)
-  console.log("orderMethod", order.method[0] === 1)
- 
+const Order = ({ order }) => {
+  console.log("order", order);
+  console.log("order", order);
+  console.log("orderMethod", order.method[0] === 1);
+
   const status = 0;
 
   const statusClass = (index) => {
@@ -20,26 +20,26 @@ const Order = ({order}) => {
         <div className={styles.row}>
           <table className={styles.table}>
             <tbody>
-            <tr className={styles.trTitle}>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Address</th>
-              <th>Total</th>
-            </tr>
-            <tr className={styles.tr}>
-              <td>
-                <span className={styles.id}>{order._id}</span>
-              </td>
-              <td>
-                <span className={styles.name}>{order.customer}</span>
-              </td>
-              <td>
-                <span className={styles.address}>{order.address}</span>
-              </td>
-              <td>
-                <span className={styles.total}>{order.total}</span>
-              </td>
-            </tr>
+              <tr className={styles.trTitle}>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Address</th>
+                <th>Total</th>
+              </tr>
+              <tr className={styles.tr}>
+                <td>
+                  <span className={styles.id}>{order._id}</span>
+                </td>
+                <td>
+                  <span className={styles.name}>{order.customer}</span>
+                </td>
+                <td>
+                  <span className={styles.address}>{order.address}</span>
+                </td>
+                <td>
+                  <span className={styles.total}>{order.total}</span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -48,13 +48,15 @@ const Order = ({order}) => {
             <Image src="/img/paid.png" width={30} height={30} alt="" />
             <span>Payment</span>
             <div className={styles.checkedIcon}>
-              { order.method[0] === 1 && <Image
-                className={styles.checkedIcon}
-                src="/img/checked.png"
-                width={20}
-                height={20}
-                alt=""
-              />}
+              {order.method[0] === 1 && (
+                <Image
+                  className={styles.checkedIcon}
+                  src="/img/checked.png"
+                  width={20}
+                  height={20}
+                  alt=""
+                />
+              )}
             </div>
           </div>
           <div className={statusClass(1)}>
@@ -119,16 +121,16 @@ const Order = ({order}) => {
   );
 };
 
-export const getServerSideProps = async ({params}) => {
-  
-  const res = await axios.get(`https://turtleyawesome.vercel/api/orders/${params.id}`)
+export const getServerSideProps = async ({ params }) => {
+  const res = await axios.get(
+    `https://turtleyawesome.vercel.app/api/orders/${params.id}`
+  );
   // const res = await axios.get(`http://localhost:3000/api/orders/${params.id}`)
   return {
-    props:{
-      order: res.data
-    }
-  }
-}
-
+    props: {
+      order: res.data,
+    },
+  };
+};
 
 export default Order;
