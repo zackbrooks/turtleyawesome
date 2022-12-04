@@ -1,27 +1,26 @@
-import Head from 'next/head'
-import Featured from '../components/Featured'
-import PizzaList from '../components/PizzaList'
-import Add from '../components/Add'
-import AddButton from '../components/AddButton'
-import axios from 'axios'
-import { useState, useEffect } from 'react'
+import Head from "next/head";
+import Featured from "../components/Featured";
+import PizzaList from "../components/PizzaList";
+import Add from "../components/Add";
+import AddButton from "../components/AddButton";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-
-export default function Home({admin}) {
-  const [close, setClose] = useState(true)
-  const [products, setProducts] = useState([])
+export default function Home({ admin }) {
+  const [close, setClose] = useState(true);
+  const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
-    const productsData = await axios.get(`https://turtleyawesome.vercel.app/api/products`)
+    const productsData = await axios.get(
+      `https://turtleyawesome.vercel.app/api/products`
+    );
     // const productsData = await axios.get(`http://localhost:3000/api/products`)
-    console.log("productsData", productsData.data)
-    setProducts(productsData.data)
-    
-  }
+    setProducts(productsData.data);
+  };
 
-  useEffect(()=>{
-    getProducts()
-  },[])
+  useEffect(() => {
+    getProducts();
+  }, []);
   return (
     <div>
       <Head>
@@ -29,8 +28,8 @@ export default function Home({admin}) {
         <meta name="description" content="Best Pizza in Northeast Arkansas" />
         <link rel="icon" href="/img/favicon.ico" />
       </Head>
-      <Featured/>
+      <Featured />
       <PizzaList pizzaList={products} />
     </div>
-  )
+  );
 }
