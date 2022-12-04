@@ -2,7 +2,7 @@ import styles from "../../styles/Order.module.css";
 import Image from "next/image";
 import axios from "axios";
 
-const Order = ({ order }) => {
+const Order = () => {
   // console.log("order", order);
   // console.log("order", order);
   // console.log("orderMethod", order.method[0] === 1);
