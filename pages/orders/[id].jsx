@@ -1,6 +1,7 @@
 import styles from "../../styles/Order.module.css";
 import Image from "next/image";
 import axios from "axios";
+import { useEffect } from "react";
 
 const Order = () => {
   // console.log("order", order);
