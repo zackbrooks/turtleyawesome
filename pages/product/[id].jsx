@@ -18,9 +18,9 @@ const Product = ({ pizza2 }) => {
     const productsData = await axios.get(
       `https://turtleyawesome.vercel.app/api/products/${params.id}`
     );
-    console.log("params.id", params.id);
+    // console.log("params.id", params.id);
     // const productsData = await axios.get(`http://localhost:3000/api/products`)
-    console.log("productsData", productsData.data);
+    // console.log("productsData", productsData.data);
     setPizza(productsData.data);
   };
 
@@ -36,7 +36,7 @@ const Product = ({ pizza2 }) => {
     const difference = prices[sizeIndex] - prices[size];
     setSize(sizeIndex);
     changePrice(difference);
-    console.log(extras);
+    // console.log(extras);
   };
 
   const handleChange = (e, option) => {

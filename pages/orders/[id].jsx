@@ -3,9 +3,9 @@ import Image from "next/image";
 import axios from "axios";
 
 const Order = ({ order }) => {
-  console.log("order", order);
-  console.log("order", order);
-  console.log("orderMethod", order.method[0] === 1);
+  // console.log("order", order);
+  // console.log("order", order);
+  // console.log("orderMethod", order.method[0] === 1);
 
   const status = 0;
 
